@@ -1,9 +1,12 @@
 package com.xworkz.springcm.temple.dao;
 
-import java.util.List;
-
-import com.xworkz.springcm.temple.entity.AppPropertyENTITY;
+import com.xworkz.springcm.temple.entity.PersonalInfoENTITY;
+import com.xworkz.springcm.temple.entity.VisitingDetailsENTITY;
 
 public interface RegistrationDAO {
+	
+	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity);
+	
+	public void saveVisitingDetails(VisitingDetailsENTITY visitingDetailsEntity);
 	
 }

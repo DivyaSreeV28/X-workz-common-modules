@@ -1,9 +1,9 @@
 package com.xworkz.springcm.temple.service;
 
-import java.util.List;
-
-import com.xworkz.springcm.temple.dto.AppPropertyDTO;
+import com.xworkz.springcm.temple.dto.RegistrationDTO;
 
 public interface RegistrationSERVICE {
+	
+	public int validateAndSaveDetails(RegistrationDTO registrationDto);
 	
 }

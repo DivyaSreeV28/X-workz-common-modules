@@ -21,14 +21,14 @@ public class LandingController {
 	private static final Logger logger=Logger.getLogger(LandingController.class);
 	
 	private List<AppPropertyDTO> entryList;
-	private List<AppPropertyDTO> nopersonList;
 	private List<AppPropertyDTO> prasadaList;
 	private List<AppPropertyDTO> idList;
 	private List<AppPropertyDTO> poojaTypeList;
 	
 	@Autowired
 	public AppPropertySERVICE appPropertyService;
-
+	
+	
 	public LandingController() {
 		logger.info("Created \t"+this.getClass().getSimpleName());
 	}
@@ -39,8 +39,6 @@ public class LandingController {
 		logger.debug(appPropertyService);
 		entryList=appPropertyService.validateAndFetchAllByType("se");
 		logger.info("Special entry List: "+entryList);
-		nopersonList=appPropertyService.validateAndFetchAllByType("nop");
-		logger.info("number of person List: "+nopersonList);
 		prasadaList=appPropertyService.validateAndFetchAllByType("prasada");
 		logger.info("prasada List: "+prasadaList);
 		idList=appPropertyService.validateAndFetchAllByType("id");	
@@ -55,10 +53,10 @@ public class LandingController {
 			logger.info("Invoked landing page with list values, register.jsp");
 			logger.debug(model);
 			model.addAttribute("specialEntryList", entryList);
-			model.addAttribute("noOfPersonList", nopersonList);
 			model.addAttribute("prasadaList", prasadaList);
 			model.addAttribute("idList", idList);
 			model.addAttribute("poojaTypeList", poojaTypeList);
+			logger.info("Invoking list has completed try registering");
 			
 		}catch (Exception e) {
 			logger.error(e.getMessage(), e);

@@ -70,19 +70,19 @@ div {
 </head>
 <body>
 
-	<h3
-		style="background: green; color: white; padding: 20px; font-size: 20px">Register</h3>
+	<h2
+		style="background: green; color: white; padding: 20px; font-size: 20px">Register</h2>
 
 	<div>
 		<h2>Personal Information</h2>
-		<form action="/landing.cm" method="post">
+		<form action="register.cm" method="post">
 
 			<label>Enter Full Name: </label>
 			<input type="text" name="name" placeholder="enter full name"><br>
 			<label>Enter valid Mobile number: </label>
-			<input type="text" name="mobileNumber" placeholder="enter mobile number"><br><br>
+			<input type="text" name="mobileNumber" placeholder="enter mobile number"><br>
 			<label>Enter present Address: </label>
-			<textarea rows="2" cols="30" name="address" placeholder="enter address"></textarea><br><br>
+			<input type="text" name="address" placeholder="enter address"><br>
 			<label>Enter age: </label> 
 			<input type="text" name="age" placeholder="enter age"><br>
 			<label>Enter Email-Id: </label>
@@ -91,29 +91,27 @@ div {
 			<input type="text" name="state" placeholder="enter state"><br>
 			<hr>
 
-			<h2>Booking Information</h2><br>
+			<h2>Visiting Details</h2><br>
 			<label>Enter Date of visiting: </label>
 			<input type="date" name="date" placeholder="Date of Visiting"><br><br>
 			
 				<!-- for(AppPropertyDTO seList:specialEntryList){
 						seList.getPropertyName();
 				} -->
-			<label>Select Entrance Type : </label> <select name="se" id="sel">
+			<label>Select Entrance Type : </label> <select name="selist" id="sel">
 				<c:forEach var="selist" items="${specialEntryList}">
 					<option value="${selist.propValue}">${selist.propName}</option>
 				</c:forEach>
 			</select> <br> 
-			<label>Select number of people: </label> <select name="nop" id="sel">
-				<c:forEach var="noOfPersonList" items="${noOfPersonList}">
-					<option value="${noOfPersonList.propValue}">${noOfPersonList.propName}</option>
-				</c:forEach>
-			</select> <br> 
+				<label>Select number of people:</label>
+			<input type="text" name="numberOfPersons" placeholder="Enter number of persons"><br>
+			 
 			<label>Select Prasada type: </label> <select name="prasada" id="sel">
 				<c:forEach var="prasadaList" items="${prasadaList}">
 					<option value="${prasadaList.propValue}">${prasadaList.propName}</option>
 				</c:forEach>
 			</select> <br> 
-			<label>Select valid ID Type : </label> <select name="id" id="sel">
+			<label>Select valid ID Type : </label> <select name="idcard" id="sel">
 				<c:forEach var="idlist" items="${idList}">
 					<option value="${idlist.propValue}">${idlist.propName}</option>
 				</c:forEach>
@@ -121,7 +119,7 @@ div {
 			<label>Enter Id card number of above selected type: </label>
 			<input type="text" name="idnumber" placeholder="Enter Id card number"><br>
 			
-			<label>Select Pooja Type : </label> <select name="pt" id="sel">
+			<label>Select Pooja Type : </label> <select name="ptlist" id="sel">
 				<c:forEach var="ptlist" items="${poojaTypeList}">
 					<option value="${ptlist.propValue}">${ptlist.propName}</option>
 				</c:forEach>
@@ -131,10 +129,6 @@ div {
 				<input type="submit" value="Submit" id="done"> <input
 					type="reset" value="Reset" id="done">
 			</div>
-			
-			<!-- <footer class="w3-center w3-light-grey w3-padding-32">
-					<p class="text-white-50 bg-dark">Powered by X-workz &reg;</p>
-				</footer> -->
 		</form>
 	</div>
 	<h5

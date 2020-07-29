@@ -1,23 +1,29 @@
 package com.xworkz.springcm.temple.dto;
 
-import com.xworkz.springcm.temple.entity.AppPropertyENTITY;
+import org.apache.log4j.Logger;
 
 public class RegistrationDTO {
 
 	private int id;
-	private String first_name;
-	private String last_name;
-	private String mobile_number;
+	private String name;
+	private String mobileNumber;
 	private String address;
 	private String age;
+	private String emailId;
 	private String state;
-	private String email;
+	
 	private String date;
+	private String numberOfPersons;
+	private String selist;
+	private String prasada;
+	private String idcard;
 	private String idnumber;
-	private AppPropertyENTITY app_property_entity;
+	private String ptlist;
+	
+	private static final Logger logger=Logger.getLogger(RegistrationDTO.class);
 	
 	public RegistrationDTO() {
-		System.out.println("Created \t"+this.getClass().getSimpleName());
+		logger.info("Created \t"+this.getClass().getSimpleName());
 	}
 
 	public int getId() {
@@ -28,28 +34,20 @@ public class RegistrationDTO {
 		this.id = id;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-	public String getMobile_number() {
-		return mobile_number;
-	}
-
-	public void setMobile_number(String mobile_number) {
-		this.mobile_number = mobile_number;
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getAddress() {
@@ -68,20 +66,20 @@ public class RegistrationDTO {
 		this.age = age;
 	}
 
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
 	public String getState() {
 		return state;
 	}
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getDate() {
@@ -92,6 +90,38 @@ public class RegistrationDTO {
 		this.date = date;
 	}
 
+	public String getNumberOfPersons() {
+		return numberOfPersons;
+	}
+
+	public void setNumberOfPersons(String numberOfPersons) {
+		this.numberOfPersons = numberOfPersons;
+	}
+
+	public String getSelist() {
+		return selist;
+	}
+
+	public void setSelist(String selist) {
+		this.selist = selist;
+	}
+
+	public String getPrasada() {
+		return prasada;
+	}
+
+	public void setPrasada(String prasada) {
+		this.prasada = prasada;
+	}
+
+	public String getIdcard() {
+		return idcard;
+	}
+
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
+
 	public String getIdnumber() {
 		return idnumber;
 	}
@@ -100,35 +130,41 @@ public class RegistrationDTO {
 		this.idnumber = idnumber;
 	}
 
-	public AppPropertyENTITY getApp_property_entity() {
-		return app_property_entity;
+	public String getPtlist() {
+		return ptlist;
 	}
 
-	public void setApp_property_entity(AppPropertyENTITY app_property_entity) {
-		this.app_property_entity = app_property_entity;
+	public void setPtlist(String ptlist) {
+		this.ptlist = ptlist;
 	}
 
-	public RegistrationDTO(String first_name, String last_name, String mobile_number, String address, String age,
-			String state, String email, String date, String idnumber, AppPropertyENTITY app_property_entity) {
+	public RegistrationDTO(String name, String mobileNumber, String address, String age, String emailId, String state,
+			String date, String numberOfPersons, String selist, String prasada, String idcard, String idnumber,
+			String ptlist) {
 		super();
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.mobile_number = mobile_number;
+		this.name = name;
+		this.mobileNumber = mobileNumber;
 		this.address = address;
 		this.age = age;
+		this.emailId = emailId;
 		this.state = state;
-		this.email = email;
 		this.date = date;
+		this.numberOfPersons = numberOfPersons;
+		this.selist = selist;
+		this.prasada = prasada;
+		this.idcard = idcard;
 		this.idnumber = idnumber;
-		this.app_property_entity = app_property_entity;
+		this.ptlist = ptlist;
 	}
 
 	@Override
 	public String toString() {
-		return "RegistrationDTO [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name
-				+ ", mobile_number=" + mobile_number + ", address=" + address + ", age=" + age + ", state=" + state
-				+ ", email=" + email + ", date=" + date + ", idnumber=" + idnumber + ", app_property_entity="
-				+ app_property_entity + "]";
+		return "RegistrationDTO [id=" + id + ", name=" + name + ", mobileNumber=" + mobileNumber + ", address="
+				+ address + ", age=" + age + ", emailId=" + emailId + ", state=" + state + ", date=" + date
+				+ ", numberOfPersons=" + numberOfPersons + ", selist=" + selist + ", prasada=" + prasada + ", idcard="
+				+ idcard + ", idnumber=" + idnumber + ", ptlist=" + ptlist + "]";
 	}
-	
+
+
+
 }
