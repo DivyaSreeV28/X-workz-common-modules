@@ -38,10 +38,15 @@ public class LandingController {
 		logger.info("Invoked init method by post construct");
 		logger.debug(appPropertyService);
 		entryList=appPropertyService.validateAndFetchAllByType("se");
+		logger.info("Special entry List: "+entryList);
 		nopersonList=appPropertyService.validateAndFetchAllByType("nop");
-		prasadaList=appPropertyService.validateAndFetchAllByType("prasada");	
+		logger.info("number of person List: "+nopersonList);
+		prasadaList=appPropertyService.validateAndFetchAllByType("prasada");
+		logger.info("prasada List: "+prasadaList);
 		idList=appPropertyService.validateAndFetchAllByType("id");	
+		logger.info("id List: "+idList);
 		poojaTypeList=appPropertyService.validateAndFetchAllByType("pt");
+		logger.info("pooja Type List: "+poojaTypeList);
 	}
 
 	@RequestMapping(value="/landing.cm", method=RequestMethod.GET)

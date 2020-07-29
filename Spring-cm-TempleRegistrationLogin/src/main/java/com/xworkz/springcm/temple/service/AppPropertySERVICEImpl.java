@@ -30,16 +30,26 @@ public class AppPropertySERVICEImpl implements AppPropertySERVICE {
 		try {
 			
 			List<AppPropertyENTITY> fetchedEntity = dao.fetchAllByType(type);
-			
+			logger.info("Copying data from dto to entity");
 			if (Objects.nonNull(fetchedEntity)) {
 				logger.info("List is found and its size is : " + fetchedEntity.size());
 				List<AppPropertyDTO> list=new ArrayList<AppPropertyDTO>();
-				fetchedEntity.forEach(e->{
-					AppPropertyDTO dto=new AppPropertyDTO();
-					logger.info("Copying data from dto to entity");
-					BeanUtils.copyProperties(dto, fetchedEntity);
+				
+				for (AppPropertyENTITY fetchEntities : fetchedEntity) {
+
+					AppPropertyDTO dto = new AppPropertyDTO();
+					logger.info("created AppPropertyDTO object");
+					BeanUtils.copyProperties(fetchEntities, dto);
 					list.add(dto);
-				});
+					logger.info("listDTO\t" + list);
+				}
+				
+//				fetchedEntity.forEach(e->{
+//					AppPropertyDTO dto=new AppPropertyDTO();
+//					BeanUtils.copyProperties(dto, fetchedEntity);
+//					logger.info("Dto list items: "+dto);
+//					list.add(dto);
+//				});
 				return list;
 			} else {
 				logger.warn("List not found");
