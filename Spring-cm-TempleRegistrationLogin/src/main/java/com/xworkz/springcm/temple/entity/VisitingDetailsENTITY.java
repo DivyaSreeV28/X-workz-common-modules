@@ -1,9 +1,12 @@
 package com.xworkz.springcm.temple.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -16,7 +19,7 @@ public class VisitingDetailsENTITY {
 	@Id
 	@GenericGenerator(name="xworkz",strategy = "increment")
 	@GeneratedValue(generator = "xworkz")
-	@Column(name="id")
+	@Column(name="v_id")
 	private int id;
 	
 	@Column(name="date")
@@ -39,6 +42,9 @@ public class VisitingDetailsENTITY {
 	
 	@Column(name="no_of_persons")
 	private String numberOfPersons;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "visitingDetailsEntity")
+	private PersonalInfoENTITY personalInfoEntity;
 	
 	private static final Logger logger=Logger.getLogger(VisitingDetailsENTITY.class);
 	
@@ -107,6 +113,14 @@ public class VisitingDetailsENTITY {
 	}
 
 	
+	public PersonalInfoENTITY getPersonalInfoEntity() {
+		return personalInfoEntity;
+	}
+
+	public void setPersonalInfoEntity(PersonalInfoENTITY personalInfoEntity) {
+		this.personalInfoEntity = personalInfoEntity;
+	}
+
 	public VisitingDetailsENTITY() {
 		logger.info("Created \t" + this.getClass().getSimpleName());
 	}

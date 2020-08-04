@@ -30,4 +30,17 @@
 	<property name="dataSource" ref="driverManagerDataSource"></property>
 	</bean>
    
+   <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender" >
+		<property name="host" value="smtp.gmail.com"></property>
+		<property name="port" value="587"></property>
+		<property name="username" value="emailid@gmail.com"></property>
+		<property name="password" value="password"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	
 </beans>

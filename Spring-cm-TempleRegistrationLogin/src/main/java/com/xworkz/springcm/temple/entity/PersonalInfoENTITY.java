@@ -3,6 +3,7 @@ package com.xworkz.springcm.temple.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,15 +12,20 @@ import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "personal_info")
+@NamedQueries({@NamedQuery(name="fetchCountByEmail",query="SELECT count(*) FROM PersonalInfoENTITY info where info.emailId=:emailId"),
+	@NamedQuery(name="fetchCountByNumber",query="SELECT count(*) FROM PersonalInfoENTITY info where info.mobileNumber=:mobileNumber")
+})
 public class PersonalInfoENTITY {
 
 	@Id
 	@GenericGenerator(name = "xworkz", strategy = "increment")
 	@GeneratedValue(generator = "xworkz")
-	@Column(name = "id")
+	@Column(name = "p_id")
 	private int id;
 
 	@Column(name = "name")
@@ -40,8 +46,8 @@ public class PersonalInfoENTITY {
 	@Column(name = "state")
 	private String state;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "visiting_details_id")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "v_id")
 	private VisitingDetailsENTITY visitingDetailsEntity;
 
 	private static final Logger logger = Logger.getLogger(PersonalInfoENTITY.class);
@@ -100,6 +106,15 @@ public class PersonalInfoENTITY {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	
+	public VisitingDetailsENTITY getVisitingDetailsEntity() {
+		return visitingDetailsEntity;
+	}
+
+	public void setVisitingDetailsEntity(VisitingDetailsENTITY visitingDetailsEntity) {
+		this.visitingDetailsEntity = visitingDetailsEntity;
 	}
 
 	public PersonalInfoENTITY() {

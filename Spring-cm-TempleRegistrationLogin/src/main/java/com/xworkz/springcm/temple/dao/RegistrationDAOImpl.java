@@ -1,9 +1,11 @@
 package com.xworkz.springcm.temple.dao;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +45,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 			
 		} catch (Exception e) {
 			logger.error("Exception in savePersonalInfoDetails method" + e.getMessage());
+			e.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {
 			logger.info("Closing session");
@@ -77,5 +80,53 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 		logger.info("End: saveVisitingDetails method in RegistrationDAOImpl "+visitingDetailsEntity);		
 	}
 
-	
+	@Override
+	public Long fetchCountByEmail(String email) {
+		Session session = this.factory.openSession();
+		try {
+			logger.info("START : fetchCountByEmail ");
+
+			// STEP 1: CREATE
+			Query query = session.getNamedQuery("fetchCountByEmail");
+			logger.info("QUERY---->" + query);
+			query.setParameter("emailId", email);
+			// STEP 2: PROCESS
+			Object result = query.uniqueResult();
+			Long countByPrice = (Long) result;
+			return countByPrice;
+
+		} catch (HibernateException he) {
+			logger.error("Hibernate Exception in fetchCountByEmail " + he.getMessage() + he);
+		} finally {
+			logger.info("Session closed");
+			session.close();
+		}
+		logger.info("END : fetchCountByEmail ");
+		return null;
+	}
+
+	@Override
+	public Long fetchCountByNumber(String number) {
+		Session session = this.factory.openSession();
+		try {
+			logger.info("START : fetchCountByNumber ");
+
+			// STEP 1: CREATE
+			Query query = session.getNamedQuery("fetchCountByNumber");
+			logger.info("QUERY---->" + query);
+			query.setParameter("mobileNumber", number);
+			// STEP 2: PROCESS
+			Object result = query.uniqueResult();
+			Long countByPrice = (Long) result;
+			return countByPrice;
+
+		} catch (HibernateException he) {
+			logger.error("Hibernate Exception in fetchCountByNumber " + he.getMessage() + he);
+		} finally {
+			logger.info("Session closed");
+			session.close();
+		}
+		logger.info("END : fetchCountByNumber ");
+		return null;
+	}
 }

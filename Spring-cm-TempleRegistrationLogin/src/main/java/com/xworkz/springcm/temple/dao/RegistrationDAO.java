@@ -9,4 +9,8 @@ public interface RegistrationDAO {
 	
 	public void saveVisitingDetails(VisitingDetailsENTITY visitingDetailsEntity);
 	
+	public Long fetchCountByEmail(String email);
+	
+	public Long fetchCountByNumber(String number);
+	
 }

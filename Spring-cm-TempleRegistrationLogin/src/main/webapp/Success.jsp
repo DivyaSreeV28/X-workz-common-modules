@@ -28,6 +28,8 @@
 		${idnumber}<br>
 		${prasada}<br>
 		${noofpersons}<br>
+		
+		<h2>Mail sent successfully, check it...</h2>
 	</div>
 	
 		<h5
