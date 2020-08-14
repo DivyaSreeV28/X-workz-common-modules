@@ -10,7 +10,9 @@ public class RegistrationDTO {
 	private String address;
 	private String age;
 	private String emailId;
+	private String password;
 	private String state;
+	private int loginCount;
 	
 	private String date;
 	private String numberOfPersons;
@@ -81,6 +83,16 @@ public class RegistrationDTO {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	
+
+	public int getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(int loginCount) {
+		this.loginCount = loginCount;
+	}
 
 	public String getDate() {
 		return date;
@@ -138,6 +150,15 @@ public class RegistrationDTO {
 		this.ptlist = ptlist;
 	}
 
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public RegistrationDTO(String name, String mobileNumber, String address, String age, String emailId, String state,
 			String date, String numberOfPersons, String selist, String prasada, String idcard, String idnumber,
 			String ptlist) {
@@ -157,14 +178,35 @@ public class RegistrationDTO {
 		this.ptlist = ptlist;
 	}
 
+	public RegistrationDTO(String name, String mobileNumber, String address, String age, String emailId,
+			String password, String state, int loginCount, String date, String numberOfPersons, String selist,
+			String prasada, String idcard, String idnumber, String ptlist) {
+		super();
+		this.name = name;
+		this.mobileNumber = mobileNumber;
+		this.address = address;
+		this.age = age;
+		this.emailId = emailId;
+		this.password = password;
+		this.state = state;
+		this.loginCount = loginCount;
+		this.date = date;
+		this.numberOfPersons = numberOfPersons;
+		this.selist = selist;
+		this.prasada = prasada;
+		this.idcard = idcard;
+		this.idnumber = idnumber;
+		this.ptlist = ptlist;
+	}
+
 	@Override
 	public String toString() {
 		return "RegistrationDTO [id=" + id + ", name=" + name + ", mobileNumber=" + mobileNumber + ", address="
-				+ address + ", age=" + age + ", emailId=" + emailId + ", state=" + state + ", date=" + date
-				+ ", numberOfPersons=" + numberOfPersons + ", selist=" + selist + ", prasada=" + prasada + ", idcard="
-				+ idcard + ", idnumber=" + idnumber + ", ptlist=" + ptlist + "]";
+				+ address + ", age=" + age + ", emailId=" + emailId + ", password=" + password + ", state=" + state
+				+ ", loginCount=" + loginCount + ", date=" + date + ", numberOfPersons=" + numberOfPersons + ", selist="
+				+ selist + ", prasada=" + prasada + ", idcard=" + idcard + ", idnumber=" + idnumber + ", ptlist="
+				+ ptlist + "]";
 	}
-
 
 
 }

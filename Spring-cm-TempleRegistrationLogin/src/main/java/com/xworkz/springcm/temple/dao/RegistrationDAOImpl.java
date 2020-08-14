@@ -29,7 +29,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 	}
 
 	@Override
-	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity) {
+	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity,VisitingDetailsENTITY visitingDetailsEntity) {
 		Session session = factory.openSession();
 		try {
 			logger.info("Start: savePersonalInfoDetails method in RegistrationDAOImpl "+personalInfoEntity);
@@ -37,8 +37,10 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 
 			logger.info("Starting transaction");
 			Transaction transaction = session.beginTransaction();
-			logger.info("Saving " + personalInfoEntity);
+			logger.info("Persnal Entity is : " + personalInfoEntity);
+			System.out.println("Visit Entity is :"+visitingDetailsEntity);
 			session.save(personalInfoEntity);
+			session.save(visitingDetailsEntity);
 			session.flush();
 			transaction.commit();
 			logger.info("Committed Transaction");
@@ -55,33 +57,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 	}
 
 	@Override
-	public void saveVisitingDetails(VisitingDetailsENTITY visitingDetailsEntity) {
-		Session session = factory.openSession();
-		try {
-			logger.info("Start: saveVisitingDetails method in RegistrationDAOImpl "+visitingDetailsEntity);
-			logger.info("Factory " + factory);
-
-			logger.info("Starting transaction");
-			Transaction transaction = session.beginTransaction();
-			logger.info("Saving " + visitingDetailsEntity);
-			session.save(visitingDetailsEntity);
-			session.flush();
-			transaction.commit();
-			logger.info("Committed Transaction");
-			
-		} catch (Exception e) {
-			logger.error("Exception in saveVisitingDetails method" + e.getMessage());
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}finally {
-			logger.info("Closing session");
-			session.close();
-		}
-		logger.info("End: saveVisitingDetails method in RegistrationDAOImpl "+visitingDetailsEntity);		
-	}
-
-	@Override
-	public Long fetchCountByEmail(String email) {
+	public Long fetchCountByEmail(String emailId) {
 		Session session = this.factory.openSession();
 		try {
 			logger.info("START : fetchCountByEmail ");
@@ -89,11 +65,13 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 			// STEP 1: CREATE
 			Query query = session.getNamedQuery("fetchCountByEmail");
 			logger.info("QUERY---->" + query);
-			query.setParameter("emailId", email);
+			query.setParameter("emailId", emailId);
 			// STEP 2: PROCESS
+			logger.info("Getting unique result and casting to Long");
 			Object result = query.uniqueResult();
-			Long countByPrice = (Long) result;
-			return countByPrice;
+			Long countByemailId = (Long) result;
+			logger.info("returning count by emailId: "+countByemailId);
+			return countByemailId;
 
 		} catch (HibernateException he) {
 			logger.error("Hibernate Exception in fetchCountByEmail " + he.getMessage() + he);
@@ -116,9 +94,10 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 			logger.info("QUERY---->" + query);
 			query.setParameter("mobileNumber", number);
 			// STEP 2: PROCESS
+			logger.info("Getting unique result and casting to Long");
 			Object result = query.uniqueResult();
-			Long countByPrice = (Long) result;
-			return countByPrice;
+			Long countByNumber = (Long) result;
+			return countByNumber;
 
 		} catch (HibernateException he) {
 			logger.error("Hibernate Exception in fetchCountByNumber " + he.getMessage() + he);
@@ -129,4 +108,57 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 		logger.info("END : fetchCountByNumber ");
 		return null;
 	}
+	
+	@Override
+	public PersonalInfoENTITY fetchPersonalDetailsByEmailId(String emailId) {
+		Session session = this.factory.openSession();
+		try {
+			System.out.println("START : fetchPersonalDetailsByEmailId " + emailId);
+
+			// STEP 1: CREATE FROM DTO USING NAMEDQUERY
+			Query query = session.getNamedQuery("fetchPersonalDetailsByEmailId");
+			System.out.println("Personal info QUERY---->" + query);
+			query.setParameter("emailId", emailId);
+			// STEP 2: PROCESS
+			logger.info("Getting unique result and casting to RegistrationDTO Object");
+			Object result = query.uniqueResult();
+			PersonalInfoENTITY entity = (PersonalInfoENTITY) result;
+			return entity;
+
+		} catch (HibernateException he) {
+			System.err.println("=======> Hibernate Exception in fetchPersonalDetailsByEmailId " + he.getMessage() + he);
+		} finally {
+			System.out.println("Session closed");
+			session.close();
+		}
+		System.out.println("END : fetchPersonalDetailsByEmailId " + emailId);
+		return null;
+	}
+	
+	@Override
+	public VisitingDetailsENTITY fetchVisitingDetailsByEmailId(String emailId) {
+		Session session = this.factory.openSession();
+		try {
+			System.out.println("START : fetchByEmailId " + emailId);
+
+			// STEP 1: CREATE FROM DTO USING NAMEDQUERY
+			Query query = session.getNamedQuery("fetchVisitingDetailsByEmailId");
+			System.out.println("Personal info QUERY---->" + query);
+			query.setParameter("emailId", emailId);
+			// STEP 2: PROCESS
+			logger.info("Getting unique result and casting to RegistrationDTO Object");
+			Object result = query.uniqueResult();
+			VisitingDetailsENTITY entity = (VisitingDetailsENTITY) result;
+			return entity;
+
+		} catch (HibernateException he) {
+			System.err.println("=======> Hibernate Exception in fetchVisitingDetailsByEmailId " + he.getMessage() + he);
+		} finally {
+			System.out.println("Session closed");
+			session.close();
+		}
+		System.out.println("END : fetchVisitingDetailsByEmailId " + emailId);
+		return null;
+	}
+	
 }

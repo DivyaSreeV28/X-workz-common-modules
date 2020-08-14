@@ -1,11 +1,10 @@
 package com.xworkz.springcm.temple.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,7 +19,7 @@ public class VisitingDetailsENTITY {
 	@GenericGenerator(name="xworkz",strategy = "increment")
 	@GeneratedValue(generator = "xworkz")
 	@Column(name="v_id")
-	private int id;
+	private int vId;
 	
 	@Column(name="date")
 	private String date;
@@ -43,17 +42,20 @@ public class VisitingDetailsENTITY {
 	@Column(name="no_of_persons")
 	private String numberOfPersons;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "visitingDetailsEntity")
+//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "p_id")
+	@OneToOne
+	@JoinColumn(name="p_id")
 	private PersonalInfoENTITY personalInfoEntity;
 	
 	private static final Logger logger=Logger.getLogger(VisitingDetailsENTITY.class);
 	
 	public int getId() {
-		return id;
+		return vId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.vId = id;
 	}
 
 	public String getDate() {
@@ -139,7 +141,7 @@ public class VisitingDetailsENTITY {
 
 	@Override
 	public String toString() {
-		return "VisitingDetailsENTITY [id=" + id + ", date=" + date + ", selist=" + selist + ", prasada=" + prasada
+		return "VisitingDetailsENTITY [id=" + vId + ", date=" + date + ", selist=" + selist + ", prasada=" + prasada
 				+ ", idcard=" + idcard + ", idnumber=" + idnumber + ", ptlist=" + ptlist + ", numberOfPersons="
 				+ numberOfPersons + "]";
 	}

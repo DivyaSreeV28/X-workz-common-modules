@@ -18,8 +18,6 @@ public class LoginDAOImpl implements LoginDAO {
 
 	private SessionFactory factory;
 
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
 	@Autowired
 	public void setFactory(SessionFactory factory) {
 		this.factory = factory;
@@ -115,14 +113,30 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 
 	@Override
-	public String generatePassword() {
-		StringBuilder builder = new StringBuilder();
-		int count = 8;
-		while (count-- != 0) {
-			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+	public String fetchPasswordByEmailId(String emailId) {
+		Session session = this.factory.openSession();
+		try {
+			System.out.println("START : fetchPasswordByEmailId " + emailId);
+
+			// STEP 1: CREATE FROM DTO USING NAMEDQUERY
+			Query query = session.getNamedQuery("fetchPasswordByEmailId");
+			System.out.println("Password QUERY---->" + query);
+			query.setParameter("emailId", emailId);
+			// STEP 2: PROCESS
+			logger.info("Getting unique result and casting to RegistrationDTO Object");
+			Object result = query.uniqueResult();
+			String entity = (String) result;
+			return entity;
+
+		} catch (HibernateException he) {
+			System.err.println(
+					"=======> Hibernate Exception in fetchPasswordByEmailId " + he.getMessage() + he);
+		} finally {
+			System.out.println("Session closed");
+			session.close();
 		}
-		return builder.toString();
+		System.out.println("END : fetchPasswordByEmailId " + emailId);
+		return null;
 	}
 
 }

@@ -6,6 +6,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Temple Registration</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- <link href="./css/bootstrap.css" rel="stylesheets">
+<link href="./css/bootstrap.css.map" rel="stylesheets"> -->
+<!-- <style type="text/css" href="./css/cssstyles.css"></style> -->
 <style>
 input[type=text], select {
 	width: 30%;
@@ -59,7 +70,13 @@ div {
 }
 
 #done {
+	background-color: green;
 	width: 15%;
+}
+
+#forgot {
+	background-color: green;
+	width: 18%;
 }
 
 #sel {
@@ -70,68 +87,83 @@ div {
 </head>
 <body>
 
-	<h2
-		style="background: green; color: white; padding: 20px; font-size: 20px">Register</h2>
+	<!-- <h2
+		style="background: green; color: white; padding: 20px; font-size: 20px">Register</h2> -->
 
 	<div>
-		<h2>Personal Information</h2>
+
 		<form action="register.cm" method="post">
 
-			<label>Enter Full Name: </label>
-			<input type="text" name="name" placeholder="enter full name"><br>
-			<label>Enter valid Mobile number: </label>
-			<input type="text" name="mobileNumber" placeholder="enter mobile number"><br>
-			<label>Enter present Address: </label>
-			<input type="text" name="address" placeholder="enter address"><br>
-			<label>Enter age: </label> 
-			<input type="text" name="age" placeholder="enter age"><br>
-			<label>Enter Email-Id: </label>
-			<input type="text" name="emailId" placeholder="enter email"><br>
-			<label>Enter State: </label>
-			<input type="text" name="state" placeholder="enter state"><br>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">Temple Registration</a> <input
+					type="reset" value="Register" id="done"
+					onclick="window.location='Registration.jsp'"> <input
+					type="reset" value="Resend" id="done"
+					onclick="window.location='ResendMail.jsp'"> <input
+					type="reset" value="Login" id="done"
+					onclick="window.location='Login.jsp'"><input type="reset"
+					value="ForgotPassword" id="forgot"
+					onclick="window.location='ForgotPassword.jsp'"> <input
+					type="reset" value="Logout" id="done"
+					onclick="window.location='Logout.jsp'">
+			</nav>
+
+			<br>
+			<h2>Personal Information</h2>
+
+			<label>Enter Full Name: </label> <input type="text" name="name"
+				placeholder="enter full name"><br> <label>Enter
+				valid Mobile number: </label> <input type="text" name="mobileNumber"
+				placeholder="enter mobile number"><br> <label>Enter
+				present Address: </label> <input type="text" name="address"
+				placeholder="enter address"><br> <label>Enter
+				age: </label> <input type="text" name="age" placeholder="enter age"><br>
+			<label>Enter Email-Id: </label> <input type="text" name="emailId"
+				placeholder="enter email"><br> <label>Enter
+				State: </label> <input type="text" name="state" placeholder="enter state"><br>
 			<hr>
 
-			<h2>Visiting Details</h2><br>
-			<label>Enter Date of visiting: </label>
-			<input type="date" name="date" placeholder="Date of Visiting"><br><br>
-			
-				<!-- for(AppPropertyDTO seList:specialEntryList){
+			<h2>Visiting Details</h2>
+			<br> <label>Enter Date of visiting: </label> <input type="date"
+				name="date" placeholder="Date of Visiting"><br> <br>
+
+			<!-- for(AppPropertyDTO seList:specialEntryList){
 						seList.getPropertyName();
 				} -->
 			<label>Select Entrance Type : </label> <select name="selist" id="sel">
 				<c:forEach var="selist" items="${specialEntryList}">
 					<option value="${selist.propValue}">${selist.propName}</option>
 				</c:forEach>
-			</select> <br> 
-				<label>Select number of people:</label>
-			<input type="text" name="numberOfPersons" placeholder="Enter number of persons"><br>
-			 
+			</select> <br> <label>Select number of people:</label> <input type="text"
+				name="numberOfPersons" placeholder="Enter number of persons"><br>
+
 			<label>Select Prasada type: </label> <select name="prasada" id="sel">
 				<c:forEach var="prasadaList" items="${prasadaList}">
 					<option value="${prasadaList.propValue}">${prasadaList.propName}</option>
 				</c:forEach>
-			</select> <br> 
-			<label>Select valid ID Type : </label> <select name="idcard" id="sel">
+			</select> <br> <label>Select valid ID Type : </label> <select
+				name="idcard" id="sel">
 				<c:forEach var="idlist" items="${idList}">
 					<option value="${idlist.propValue}">${idlist.propName}</option>
 				</c:forEach>
-			</select> <br> 
-			<label>Enter Id card number of above selected type: </label>
-			<input type="text" name="idnumber" placeholder="Enter Id card number"><br>
-			
-			<label>Select Pooja Type : </label> <select name="ptlist" id="sel">
+			</select> <br> <label>Enter Id card number of above selected
+				type: </label> <input type="text" name="idnumber"
+				placeholder="Enter Id card number"><br> <label>Select
+				Pooja Type : </label> <select name="ptlist" id="sel">
 				<c:forEach var="ptlist" items="${poojaTypeList}">
 					<option value="${ptlist.propValue}">${ptlist.propName}</option>
 				</c:forEach>
 			</select>
 
 			<div>
-				<input type="submit" value="Submit" id="done"> <input
-					type="reset" value="Reset" id="done">
+				<input type="submit" value="Submit" id="done">
+				<!-- <input type="reset" value="Request Details" id="done" onclick="window.location='ResendMail.jsp'" >
+				<input type="reset" value="Reset" id="done"> -->
 			</div>
 		</form>
 	</div>
 	<h5
-		style="background: grey; color: white; padding: 10px; font-size: 20px">Powered by X-workz</h5>
+		style="background: grey; color: white; padding: 10px; font-size: 20px">Powered
+		by X-workz</h5>
 </body>
 </html>
