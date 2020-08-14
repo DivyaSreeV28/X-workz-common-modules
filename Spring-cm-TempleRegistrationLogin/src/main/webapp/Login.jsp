@@ -5,8 +5,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login Page</title>
-<link href="./css/bootstrap.css" rel="stylesheets">
-<link href="./css/bootstrap.css.map" rel="stylesheets">
+ <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- <link href="./css/bootstrap.css" rel="stylesheets">
+<link href="./css/bootstrap.css.map" rel="stylesheets"> -->
 <style>
 input[type=text], select {
 	width: 30%;
@@ -60,8 +68,13 @@ div {
 }
 
 #done {
-background-color: green;
+	background-color: green;
 	width: 15%;
+}
+
+#forgot {
+	background-color: green;
+	width: 18%;
 }
 
 #sel {
@@ -72,23 +85,28 @@ background-color: green;
 </head>
 <body>
 
-	<nav class="navbar navbar-dark bg-dark">
-		<form class="form-inline">
-			<nav class="navbar navbar-light bg-light">
-				Login <input type="reset" value="Register" id="done"
-					onclick="window.location='Registration.jsp'"> <input
-					type="reset" value="Resend Mail" id="done"
-					onclick="window.location='ResendMail.jsp'"> <input
-					type="reset" value="Login" id="done"
-					onclick="window.location='Login.jsp'">
-			</nav>
-		</form>
-	</nav>
 	<div>
 		<form action="login.cm" method="post">
+		
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">Temple Registration</a> <input
+					type="reset" value="Register" id="done"
+					onclick="window.location='Registration.jsp'"> <input
+					type="reset" value="Resend" id="done"
+					onclick="window.location='ResendMail.jsp'"> <input
+					type="reset" value="Login" id="done"
+					onclick="window.location='Login.jsp'"><input type="reset"
+					value="ForgotPassword" id="forgot"
+					onclick="window.location='ForgotPassword.jsp'"> <input
+					type="reset" value="Logout" id="done"
+					onclick="window.location='Logout.jsp'">
+			</nav>
+			<br>
+			<h2>Login</h2>
+			
 			<label>Enter Email-Id: </label> <input type="text" name="emailId"
 				placeholder="enter email"><br> 
-			<label>Enter Password: </label> <input type="text" name="password"
+			<label>Enter Password: </label> <input type="password" name="password"
 				placeholder="enter password"><br>		
 			<div>
 				<input type="submit" value="Login" id="done">

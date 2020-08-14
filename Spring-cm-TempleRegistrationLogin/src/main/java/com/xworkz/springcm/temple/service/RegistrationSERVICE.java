@@ -6,4 +6,6 @@ public interface RegistrationSERVICE {
 	
 	public int validateAndSaveDetails(RegistrationDTO registrationDto);
 	
+	public RegistrationDTO validateAndResendMail(String emailId);
+	
 }

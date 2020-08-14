@@ -5,12 +5,14 @@ import com.xworkz.springcm.temple.entity.VisitingDetailsENTITY;
 
 public interface RegistrationDAO {
 	
-	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity);
+	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity,VisitingDetailsENTITY visitingDetailsEntity);
 	
-	public void saveVisitingDetails(VisitingDetailsENTITY visitingDetailsEntity);
-	
-	public Long fetchCountByEmail(String email);
+	public Long fetchCountByEmail(String emailId);
 	
 	public Long fetchCountByNumber(String number);
+	
+	public PersonalInfoENTITY fetchPersonalDetailsByEmailId(String emailId);
+	
+	public VisitingDetailsENTITY fetchVisitingDetailsByEmailId(String emailId);
 	
 }

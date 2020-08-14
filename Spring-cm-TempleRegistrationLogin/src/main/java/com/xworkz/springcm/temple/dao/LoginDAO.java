@@ -11,6 +11,6 @@ public interface LoginDAO {
 	
 	public VisitingDetailsENTITY fetchVisitingDetailsByEmailIdAndPassword(String emailId,String password);
 	
-	public String generatePassword();
-
+	public String fetchPasswordByEmailId(String emailId);
+	
 }

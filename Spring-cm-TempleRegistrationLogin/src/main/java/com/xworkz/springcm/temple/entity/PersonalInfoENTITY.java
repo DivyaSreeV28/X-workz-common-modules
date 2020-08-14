@@ -3,10 +3,8 @@ package com.xworkz.springcm.temple.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,8 +15,22 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "personal_info")
-@NamedQueries({@NamedQuery(name="fetchCountByEmail",query="SELECT count(*) FROM PersonalInfoENTITY info where info.emailId=:emailId"),
-	@NamedQuery(name="fetchCountByNumber",query="SELECT count(*) FROM PersonalInfoENTITY info where info.mobileNumber=:mobileNumber")
+@NamedQueries({@NamedQuery(name="fetchCountByEmail",
+		query="SELECT count(*) FROM PersonalInfoENTITY info where info.emailId=:emailId"),
+	@NamedQuery(name="fetchCountByNumber",
+		query="SELECT count(*) FROM PersonalInfoENTITY info where info.mobileNumber=:mobileNumber"),
+	@NamedQuery(name="fetchPersonalDetailsByEmailId",
+		query="SELECT p_info FROM PersonalInfoENTITY p_info where p_info.emailId=:emailId"),
+	@NamedQuery(name="fetchVisitingDetailsByEmailId",
+		query="SELECT v_info FROM VisitingDetailsENTITY v_info where p_id=(SELECT pId FROM PersonalInfoENTITY where emailId=:emailId)"),
+	@NamedQuery(name="updatePersonalInfoDetails",
+	query="UPDATE PersonalInfoENTITY SET password=:password where emailId=:emailId"),
+	@NamedQuery(name="fetchPersonalDetailsByEmailIdAndPassword",
+		query="SELECT p_info FROM PersonalInfoENTITY p_info where p_id=(SELECT pId FROM PersonalInfoENTITY where emailId=:emailId AND password=:password)"),
+	@NamedQuery(name="fetchVisitingDetailsByEmailIdAndPassword",
+		query="SELECT v_info FROM VisitingDetailsENTITY v_info where p_id=(SELECT pId FROM PersonalInfoENTITY where emailId=:emailId AND password=:password)"),
+	@NamedQuery(name="fetchPasswordByEmailId",
+		query="SELECT password FROM PersonalInfoENTITY p_info where p_info.emailId=:emailId")
 })
 public class PersonalInfoENTITY {
 
@@ -26,7 +38,7 @@ public class PersonalInfoENTITY {
 	@GenericGenerator(name = "xworkz", strategy = "increment")
 	@GeneratedValue(generator = "xworkz")
 	@Column(name = "p_id")
-	private int id;
+	private int pId;
 
 	@Column(name = "name")
 	private String name;
@@ -42,22 +54,28 @@ public class PersonalInfoENTITY {
 
 	@Column(name = "email_id")
 	private String emailId;
+	
+	@Column(name="password")
+	private String password;
 
 	@Column(name = "state")
 	private String state;
+	
+	@Column(name="login_count")
+	private int loginCount;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "v_id")
+	//@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalInfoEntity")
+	@OneToOne(cascade = CascadeType.ALL,mappedBy ="personalInfoEntity" )
 	private VisitingDetailsENTITY visitingDetailsEntity;
 
 	private static final Logger logger = Logger.getLogger(PersonalInfoENTITY.class);
 
 	public int getId() {
-		return id;
+		return pId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.pId = id;
 	}
 
 	public String getName() {
@@ -117,6 +135,24 @@ public class PersonalInfoENTITY {
 		this.visitingDetailsEntity = visitingDetailsEntity;
 	}
 
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
+	public int getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(int loginCount) {
+		this.loginCount = loginCount;
+	}
+
 	public PersonalInfoENTITY() {
 		logger.info("Created \t" + this.getClass().getSimpleName());
 	}
@@ -132,10 +168,26 @@ public class PersonalInfoENTITY {
 		this.state = state;
 	}
 
-	@Override
-	public String toString() {
-		return "PersonalInfoENTITY [id=" + id + ", name=" + name + ", mobileNumber=" + mobileNumber + ", address="
-				+ address + ", age=" + age + ", emailId=" + emailId + ", state=" + state + "]";
+	public PersonalInfoENTITY(String name, String mobileNumber, String address, String age, String emailId,
+			String password, String state, int loginCount, VisitingDetailsENTITY visitingDetailsEntity) {
+		super();
+		this.name = name;
+		this.mobileNumber = mobileNumber;
+		this.address = address;
+		this.age = age;
+		this.emailId = emailId;
+		this.password = password;
+		this.state = state;
+		this.loginCount = loginCount;
+		this.visitingDetailsEntity = visitingDetailsEntity;
 	}
 
+	@Override
+	public String toString() {
+		return "PersonalInfoENTITY [pId=" + pId + ", name=" + name + ", mobileNumber=" + mobileNumber + ", address="
+				+ address + ", age=" + age + ", emailId=" + emailId + ", password=" + password + ", state=" + state
+				+ ", loginCount=" + loginCount + ", visitingDetailsEntity=" + visitingDetailsEntity + "]";
+	}
+
+	
 }

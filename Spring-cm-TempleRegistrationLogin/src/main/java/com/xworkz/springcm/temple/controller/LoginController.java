@@ -52,5 +52,18 @@ public class LoginController {
 		return "Login";
 	}
 
+	@RequestMapping(value = "/forgotpassword.cm", method = RequestMethod.POST)
+	public String forgotPasswordPage(String emailId, Model model) {
+		try {
+			logger.info("Invoked forgot password page with emailId,later redirect to login.jsp");
+			
+			loginService.validateEmailIdAndSendPassword(emailId);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "Login";
+	}
+
 	
 }
