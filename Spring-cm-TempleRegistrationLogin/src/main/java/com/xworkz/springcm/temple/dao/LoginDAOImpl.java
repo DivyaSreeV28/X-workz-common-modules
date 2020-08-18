@@ -55,6 +55,35 @@ public class LoginDAOImpl implements LoginDAO {
 		logger.info("End: updatePersonalInfoDetails " + emailId);
 		return 0;
 	}
+	
+	@Override
+	public int updateLoginCountInPersonalInfoDetails(String emailId, String password,int loginCount) {
+		logger.info("Start: updateLoginCountInPersonalInfoDetails " + emailId);
+		Session session = factory.openSession();
+		try {
+			logger.info("Start: updateLoginCountInPersonalInfoDetails method in LoginDAOImpl " + emailId);
+			logger.info("Factory " + factory);
+
+			session.beginTransaction();
+			// STEP1: CREATE FROM DTO USING NAMEDQUERY
+			Query query = session.getNamedQuery("updateLoginCountInPersonalInfoDetails");
+			query.setParameter("emailId", emailId);
+			query.setParameter("password", password);
+			query.setParameter("loginCount", loginCount);
+			// STEP 2: PROCESS
+			int rowsUpdated = query.executeUpdate();
+			session.getTransaction().commit();
+			return rowsUpdated;
+
+		} catch (Exception e) {
+			logger.error("Exception in updateLoginCountInPersonalInfoDetails ", e);
+		} finally {
+			logger.info("Closing session");
+			session.close();
+		}
+		logger.info("End: updateLoginCountInPersonalInfoDetails " + emailId);
+		return 0;
+	}
 
 	@Override
 	public PersonalInfoENTITY fetchPersonalDetailsByEmailIdAndPassword(String emailId, String password) {

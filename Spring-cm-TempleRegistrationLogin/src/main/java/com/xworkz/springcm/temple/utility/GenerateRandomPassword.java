@@ -10,7 +10,7 @@ public class GenerateRandomPassword {
 	
 	private static final Logger logger=Logger.getLogger(GenerateRandomPassword.class);
 
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$&*";
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@$*";
 	
 	public static String generatePassword() {
 		try {

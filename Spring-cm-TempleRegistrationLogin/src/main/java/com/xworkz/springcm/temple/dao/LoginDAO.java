@@ -7,6 +7,8 @@ public interface LoginDAO {
 	
 	public int updatePersonalInfoDetails(String emailId,String password);
 	
+	public int updateLoginCountInPersonalInfoDetails(String emailId, String password,int loginCount);
+	
 	public PersonalInfoENTITY fetchPersonalDetailsByEmailIdAndPassword(String emailId,String password);
 	
 	public VisitingDetailsENTITY fetchVisitingDetailsByEmailIdAndPassword(String emailId,String password);

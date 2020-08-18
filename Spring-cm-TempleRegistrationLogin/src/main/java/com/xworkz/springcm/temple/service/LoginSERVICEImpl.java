@@ -1,14 +1,20 @@
 package com.xworkz.springcm.temple.service;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xworkz.springcm.temple.dao.LoginDAO;
 import com.xworkz.springcm.temple.dao.RegistrationDAO;
 import com.xworkz.springcm.temple.dto.MailDTO;
+import com.xworkz.springcm.temple.dto.RegistrationDTO;
 import com.xworkz.springcm.temple.entity.PersonalInfoENTITY;
 import com.xworkz.springcm.temple.entity.VisitingDetailsENTITY;
 import com.xworkz.springcm.temple.utility.EncryptDecryptPassword;
@@ -27,6 +33,9 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 
 	@Autowired
 	private RegistrationDAO registrationDao;
+	
+	@Autowired
+	private HttpSession httpSession;
 
 	StringBuilder str = new StringBuilder("Hello!! \n");
 
@@ -43,20 +52,33 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 			if (Objects.nonNull(emailId) && emailId != null && Objects.nonNull(password) && password != null) {
 				logger.info("Email and password are valid");
 
+				int loginCount = 0;
+				//logger.info("Fetched Login Count is: "+loginCount);
+				//if(loginCount!=0) {
+					loginCount=loginCount+1;
+					logger.info("Login Count incremented is: "+loginCount);
+					int updatedCount=loginDao.updateLoginCountInPersonalInfoDetails(emailId, password, loginCount);
+					logger.info("Updated login count when emailId and password matches "+updatedCount);
+
+//				}else {
+//					loginCount=1;
+//					logger.info("Login Count initialized to 1: "+loginCount);
+//				}
+
 				logger.info("fetchPersonalDetailsByEmailIdAndPassword");
 				personalEntity = loginDao.fetchPersonalDetailsByEmailIdAndPassword(emailId, password);
-				int loginCount=personalEntity.getLoginCount();
-				logger.info("fetchVisitingDetailsByEmailId");
+				logger.info("fetchVisitingDetasByEmailId");
 				visitingEntity = loginDao.fetchVisitingDetailsByEmailIdAndPassword(emailId, password);
 
 				logger.info("getting email and password from database and comparing with sent email and password ");
 				String fetchedEmail = personalEntity.getEmailId();
 				String fetchedEncryptedPassword = personalEntity.getPassword();
-				logger.info("Fetched emailId and password are: "+fetchedEmail+" and "+fetchedEncryptedPassword);
+				logger.info("Fetched emailId and password are: " + fetchedEmail + " and " + fetchedEncryptedPassword);
 				String decryptedPassword = EncryptDecryptPassword.decrypt(fetchedEncryptedPassword);
 				logger.info("Decrypted password fetched from database " + decryptedPassword);
-
-				if (emailId.equalsIgnoreCase(fetchedEmail) && password.equalsIgnoreCase(decryptedPassword) && loginCount<=3) {
+				
+				if (emailId.equalsIgnoreCase(fetchedEmail) && password.equalsIgnoreCase(decryptedPassword)
+						&& loginCount <= 3) {
 					logger.info("EmailId and Password matched successfully");
 
 					String from = "Divyasree";
@@ -97,7 +119,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 				if (emailCount == 1) {
 					logger.info("Data is valid and can generate password");
 					String generatedpassword = GenerateRandomPassword.generatePassword();
-					logger.info("password generated of 8 digit alphanumeric "+generatedpassword);
+					logger.info("password generated of 8 digit alphanumeric " + generatedpassword);
 
 					String encryptedPassword = EncryptDecryptPassword.encrypt(generatedpassword);
 					logger.info("Encrypting the generated password and saving encrypted password into database "
@@ -106,7 +128,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 					logger.info("Updating the encrypted password into database by calling validateAndUpdateDetails");
 
 					logger.info("Updating PersonalInfo Details " + personalEntity);
-					logger.info("Updating visitingInfo Details " + visitingEntity);
+					//logger.info("Updating visitingInfo Details " + visitingEntity);
 					int isUpdated = loginDao.updatePersonalInfoDetails(emailId, generatedpassword);
 					if (isUpdated == 1) {
 						logger.info("Password updated for given email-id " + generatedpassword);
@@ -154,7 +176,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 				logger.info("Data is valid and can fetch password");
 				String fetchedPassword = loginDao.fetchPasswordByEmailId(emailId);
 				if (Objects.nonNull(fetchedPassword)) {
-				
+
 					String decryptedPassword = EncryptDecryptPassword.decrypt(fetchedPassword);
 					logger.info("Decrypting the fetched password " + decryptedPassword);
 
@@ -185,4 +207,38 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 		logger.info("End: validateEmailIdAndSendPassword " + emailId);
 		return 0;
 	}
+
+	@Override
+	public int validateAndSaveBookingDetails(RegistrationDTO registrationDto) {
+		logger.info("Create: validateAndSaveBookingDetails " + registrationDto);
+		try {
+				String emailId=(String) httpSession.getAttribute("emailId");
+				logger.info("Email id fetched from http session "+emailId);
+
+				if (emailId != null) {
+					PersonalInfoENTITY personalInfoEntity = registrationDao.fetchPersonalDetailsByEmailId(emailId);
+					logger.info("Fetched Personal entity from email id: "+personalInfoEntity);
+					//Set<VisitingDetailsENTITY> visitingDetailsEntity = new HashSet<VisitingDetailsENTITY>();
+					VisitingDetailsENTITY visitingDetailsEntity=new VisitingDetailsENTITY();
+
+					logger.info("Mapping VisitingDetailsENTITY with PersonalInfoENTITY");
+					visitingDetailsEntity.setPersonalInfoEntity(personalInfoEntity);
+					
+					BeanUtils.copyProperties(registrationDto, visitingDetailsEntity);
+
+					logger.info("Saving visitingInfo Details " + visitingDetailsEntity);
+					registrationDao.saveVisitingDetailsDetails(visitingDetailsEntity);
+					return 1;
+				}else {
+					logger.info("Email id  is null");
+					return 0;
+				}
+		} catch (Exception e) {
+			logger.error("Exception in validateAndSaveDetails " + e.getMessage());
+			e.printStackTrace();
+		}
+		logger.info("End: validateAndSaveDetails " + registrationDto);
+		return 0;
+	}
+
 }

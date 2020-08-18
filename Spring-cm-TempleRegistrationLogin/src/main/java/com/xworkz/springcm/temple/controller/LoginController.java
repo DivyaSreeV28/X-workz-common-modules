@@ -1,5 +1,7 @@
 package com.xworkz.springcm.temple.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,16 +25,17 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login.cm", method = RequestMethod.POST)
-	public String loginPage(String emailId,String password, Model model) {
+	public String loginPage(String emailId,String password, Model model,HttpSession httpSession) {
 		try {
 			logger.info("Invoked login page with emailId and password,later redirect to loginsuccess.jsp");
 			
+			httpSession.setAttribute("emailId", emailId);
 			int isUpdated=loginService.validateAndUpdateDetails(emailId, password);
 			if(isUpdated==1) {
-				return "LoginSuccess";
-			}else {
-				return "Registration";
+				model.addAttribute("emailId", emailId);
+				return "BookSearchPage";
 			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
