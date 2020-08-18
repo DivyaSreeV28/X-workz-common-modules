@@ -1,5 +1,7 @@
 package com.xworkz.springcm.temple.dao;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -29,7 +31,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 	}
 
 	@Override
-	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity,VisitingDetailsENTITY visitingDetailsEntity) {
+	public void savePersonalInfoDetails(PersonalInfoENTITY personalInfoEntity,Set<VisitingDetailsENTITY> visitingDetailsEntity) {
 		Session session = factory.openSession();
 		try {
 			logger.info("Start: savePersonalInfoDetails method in RegistrationDAOImpl "+personalInfoEntity);
@@ -54,6 +56,32 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 			session.close();
 		}
 		logger.info("End: savePersonalInfoDetails method in RegistrationDAOImpl "+personalInfoEntity);	
+	}
+	
+	@Override
+	public void saveVisitingDetailsDetails(VisitingDetailsENTITY visitingDetailsEntity) {
+		Session session = factory.openSession();
+		try {
+			logger.info("Start: savePersonalInfoDetails method in RegistrationDAOImpl "+visitingDetailsEntity);
+			logger.info("Factory " + factory);
+
+			logger.info("Starting transaction");
+			Transaction transaction = session.beginTransaction();
+			System.out.println("Visit Entity is :"+visitingDetailsEntity);
+			session.save(visitingDetailsEntity);
+			session.flush();
+			transaction.commit();
+			logger.info("Committed Transaction");
+			
+		} catch (Exception e) {
+			logger.error("Exception in savePersonalInfoDetails method" + e.getMessage());
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}finally {
+			logger.info("Closing session");
+			session.close();
+		}
+		logger.info("End: savePersonalInfoDetails method in RegistrationDAOImpl "+visitingDetailsEntity);	
 	}
 
 	@Override

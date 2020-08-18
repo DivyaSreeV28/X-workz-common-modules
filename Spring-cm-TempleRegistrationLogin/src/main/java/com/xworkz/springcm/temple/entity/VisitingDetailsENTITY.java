@@ -2,10 +2,11 @@ package com.xworkz.springcm.temple.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -42,9 +43,7 @@ public class VisitingDetailsENTITY {
 	@Column(name="no_of_persons")
 	private String numberOfPersons;
 	
-//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinColumn(name = "p_id")
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="p_id")
 	private PersonalInfoENTITY personalInfoEntity;
 	

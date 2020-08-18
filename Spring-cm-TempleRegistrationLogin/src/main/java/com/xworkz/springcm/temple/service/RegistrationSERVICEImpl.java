@@ -1,6 +1,8 @@
 package com.xworkz.springcm.temple.service;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -98,7 +100,7 @@ public class RegistrationSERVICEImpl implements RegistrationSERVICE {
 
 					logger.info("Data is valid and can save fields");
 					PersonalInfoENTITY personalInfoEntity = new PersonalInfoENTITY();
-					VisitingDetailsENTITY visitingDetailsEntity = new VisitingDetailsENTITY();
+					Set<VisitingDetailsENTITY> visitingDetailsEntity = new HashSet<VisitingDetailsENTITY>();
 
 					logger.info("Copying data from personalInfoEntity to dto " + personalInfoEntity);
 					BeanUtils.copyProperties(registrationDto, personalInfoEntity);
@@ -107,7 +109,7 @@ public class RegistrationSERVICEImpl implements RegistrationSERVICE {
 					
 					logger.info("Mapping PersonalInfoENTITY with VisitingDetailsENTITY");
 					personalInfoEntity.setVisitingDetailsEntity(visitingDetailsEntity);
-					visitingDetailsEntity.setPersonalInfoEntity(personalInfoEntity);
+					//visitingDetailsEntity.setPersonalInfoEntity(personalInfoEntity);
 					
 					logger.info("Saving PersonalInfo Details " + personalInfoEntity);
 					logger.info("Saving visitingInfo Details " + visitingDetailsEntity);

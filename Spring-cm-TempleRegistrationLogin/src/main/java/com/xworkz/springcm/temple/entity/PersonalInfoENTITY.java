@@ -1,11 +1,14 @@
 package com.xworkz.springcm.temple.entity;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -25,6 +28,8 @@ import org.hibernate.annotations.NamedQuery;
 		query="SELECT v_info FROM VisitingDetailsENTITY v_info where p_id=(SELECT pId FROM PersonalInfoENTITY where emailId=:emailId)"),
 	@NamedQuery(name="updatePersonalInfoDetails",
 	query="UPDATE PersonalInfoENTITY SET password=:password where emailId=:emailId"),
+	@NamedQuery(name="updateLoginCountInPersonalInfoDetails",
+	query="UPDATE PersonalInfoENTITY SET loginCount=:loginCount where emailId=:emailId AND password=:password"),
 	@NamedQuery(name="fetchPersonalDetailsByEmailIdAndPassword",
 		query="SELECT p_info FROM PersonalInfoENTITY p_info where p_id=(SELECT pId FROM PersonalInfoENTITY where emailId=:emailId AND password=:password)"),
 	@NamedQuery(name="fetchVisitingDetailsByEmailIdAndPassword",
@@ -64,9 +69,8 @@ public class PersonalInfoENTITY {
 	@Column(name="login_count")
 	private int loginCount;
 
-	//@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalInfoEntity")
-	@OneToOne(cascade = CascadeType.ALL,mappedBy ="personalInfoEntity" )
-	private VisitingDetailsENTITY visitingDetailsEntity;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy ="personalInfoEntity")
+	private Set<VisitingDetailsENTITY> visitingDetailsEntity;
 
 	private static final Logger logger = Logger.getLogger(PersonalInfoENTITY.class);
 
@@ -127,15 +131,14 @@ public class PersonalInfoENTITY {
 	}
 
 	
-	public VisitingDetailsENTITY getVisitingDetailsEntity() {
+	public Set<VisitingDetailsENTITY> getVisitingDetailsEntity() {
 		return visitingDetailsEntity;
 	}
 
-	public void setVisitingDetailsEntity(VisitingDetailsENTITY visitingDetailsEntity) {
+	public void setVisitingDetailsEntity(Set<VisitingDetailsENTITY> visitingDetailsEntity) {
 		this.visitingDetailsEntity = visitingDetailsEntity;
 	}
 
-	
 	public String getPassword() {
 		return password;
 	}
@@ -169,7 +172,7 @@ public class PersonalInfoENTITY {
 	}
 
 	public PersonalInfoENTITY(String name, String mobileNumber, String address, String age, String emailId,
-			String password, String state, int loginCount, VisitingDetailsENTITY visitingDetailsEntity) {
+			String password, String state, int loginCount, Set<VisitingDetailsENTITY> visitingDetailsEntity) {
 		super();
 		this.name = name;
 		this.mobileNumber = mobileNumber;
