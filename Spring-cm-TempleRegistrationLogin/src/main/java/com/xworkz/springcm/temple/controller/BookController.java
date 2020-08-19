@@ -23,59 +23,21 @@ public class BookController {
 	private static final Logger logger=Logger.getLogger(BookController.class);
 	
 	@Autowired
-	public LoginSERVICE loginService;
+	private LoginSERVICE loginService;
 
 	public BookController() {
 		logger.info("Created \t" + this.getClass().getSimpleName());
 	}
-
-	private List<AppPropertyDTO> entryList;
-	private List<AppPropertyDTO> prasadaList;
-	private List<AppPropertyDTO> idList;
-	private List<AppPropertyDTO> poojaTypeList;
-	
-	@Autowired
-	public AppPropertySERVICE appPropertyService;
-	
-	@PostConstruct
-	public void init() {
-		logger.info("Invoked init method by post construct");
-		logger.debug(appPropertyService);
-		entryList=appPropertyService.validateAndFetchAllByType("se");
-		logger.info("Special entry List: "+entryList);
-		prasadaList=appPropertyService.validateAndFetchAllByType("prasada");
-		logger.info("prasada List: "+prasadaList);
-		idList=appPropertyService.validateAndFetchAllByType("id");	
-		logger.info("id List: "+idList);
-		poojaTypeList=appPropertyService.validateAndFetchAllByType("pt");
-		logger.info("pooja Type List: "+poojaTypeList);
-	}
-
-//	@RequestMapping(value="/landing.cm", method=RequestMethod.GET)
-//	public String landingPage(Model model) {
-//		try {
-//			logger.info("Invoked landing page with list values, register.jsp");
-//			logger.debug(model);
-//			model.addAttribute("specialEntryList", entryList);
-//			model.addAttribute("prasadaList", prasadaList);
-//			model.addAttribute("idList", idList);
-//			model.addAttribute("poojaTypeList", poojaTypeList);
-//			logger.info("Invoking list has completed try registering");
-//			
-//		}catch (Exception e) {
-//			logger.error(e.getMessage(), e);
-//		}
-//		return "BookVisit";
-//	}
 	
 	@RequestMapping(value = "/book.cm", method = RequestMethod.POST)
 	public String bookPage(RegistrationDTO registrationDto, Model model) {
 		try {
+			
 			logger.info("Invoked Booking page with list values,later redirect to success.jsp");
 
 			logger.info("Booking temple visting details");
 			int isValid=loginService.validateAndSaveBookingDetails(registrationDto);
-			if (isValid == 0) {
+			if (isValid == 1) {
 				
 				model.addAttribute("success", "Booking done successfully..");
 

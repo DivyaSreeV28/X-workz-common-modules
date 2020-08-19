@@ -33,7 +33,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 
 	@Autowired
 	private RegistrationDAO registrationDao;
-	
+
 	@Autowired
 	private HttpSession httpSession;
 
@@ -45,6 +45,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 
 	@Override
 	public int validateAndUpdateDetails(String emailId, String password) {
+
 		logger.info("Create: validateAndUpdateDetails " + emailId);
 		PersonalInfoENTITY personalEntity = new PersonalInfoENTITY();
 		VisitingDetailsENTITY visitingEntity = new VisitingDetailsENTITY();
@@ -52,23 +53,16 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 			if (Objects.nonNull(emailId) && emailId != null && Objects.nonNull(password) && password != null) {
 				logger.info("Email and password are valid");
 
-				int loginCount = 0;
-				//logger.info("Fetched Login Count is: "+loginCount);
-				//if(loginCount!=0) {
-					loginCount=loginCount+1;
-					logger.info("Login Count incremented is: "+loginCount);
-					int updatedCount=loginDao.updateLoginCountInPersonalInfoDetails(emailId, password, loginCount);
-					logger.info("Updated login count when emailId and password matches "+updatedCount);
-
-//				}else {
-//					loginCount=1;
-//					logger.info("Login Count initialized to 1: "+loginCount);
-//				}
-
 				logger.info("fetchPersonalDetailsByEmailIdAndPassword");
 				personalEntity = loginDao.fetchPersonalDetailsByEmailIdAndPassword(emailId, password);
 				logger.info("fetchVisitingDetasByEmailId");
 				visitingEntity = loginDao.fetchVisitingDetailsByEmailIdAndPassword(emailId, password);
+
+				int loginCount = personalEntity.getLoginCount();
+				loginCount = loginCount + 1;
+				logger.info("Login Count incremented is: " + loginCount);
+				int updatedCount = loginDao.updateLoginCountInPersonalInfoDetails(emailId, password, loginCount);
+				logger.info("Updated login count when emailId and password matches " + updatedCount);
 
 				logger.info("getting email and password from database and comparing with sent email and password ");
 				String fetchedEmail = personalEntity.getEmailId();
@@ -76,7 +70,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 				logger.info("Fetched emailId and password are: " + fetchedEmail + " and " + fetchedEncryptedPassword);
 				String decryptedPassword = EncryptDecryptPassword.decrypt(fetchedEncryptedPassword);
 				logger.info("Decrypted password fetched from database " + decryptedPassword);
-				
+
 				if (emailId.equalsIgnoreCase(fetchedEmail) && password.equalsIgnoreCase(decryptedPassword)
 						&& loginCount <= 3) {
 					logger.info("EmailId and Password matched successfully");
@@ -128,7 +122,7 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 					logger.info("Updating the encrypted password into database by calling validateAndUpdateDetails");
 
 					logger.info("Updating PersonalInfo Details " + personalEntity);
-					//logger.info("Updating visitingInfo Details " + visitingEntity);
+					// logger.info("Updating visitingInfo Details " + visitingEntity);
 					int isUpdated = loginDao.updatePersonalInfoDetails(emailId, generatedpassword);
 					if (isUpdated == 1) {
 						logger.info("Password updated for given email-id " + generatedpassword);
@@ -212,27 +206,28 @@ public class LoginSERVICEImpl implements LoginSERVICE {
 	public int validateAndSaveBookingDetails(RegistrationDTO registrationDto) {
 		logger.info("Create: validateAndSaveBookingDetails " + registrationDto);
 		try {
-				String emailId=(String) httpSession.getAttribute("emailId");
-				logger.info("Email id fetched from http session "+emailId);
+			String emailId = (String) httpSession.getAttribute("emailId");
+			logger.info("Email id fetched from http session " + emailId);
 
-				if (emailId != null) {
-					PersonalInfoENTITY personalInfoEntity = registrationDao.fetchPersonalDetailsByEmailId(emailId);
-					logger.info("Fetched Personal entity from email id: "+personalInfoEntity);
-					//Set<VisitingDetailsENTITY> visitingDetailsEntity = new HashSet<VisitingDetailsENTITY>();
-					VisitingDetailsENTITY visitingDetailsEntity=new VisitingDetailsENTITY();
+			if (emailId != null) {
+				PersonalInfoENTITY personalInfoEntity = registrationDao.fetchPersonalDetailsByEmailId(emailId);
+				logger.info("Fetched Personal entity from email id: " + personalInfoEntity);
+				// Set<VisitingDetailsENTITY> visitingDetailsEntity = new
+				// HashSet<VisitingDetailsENTITY>();
+				VisitingDetailsENTITY visitingDetailsEntity = new VisitingDetailsENTITY();
 
-					logger.info("Mapping VisitingDetailsENTITY with PersonalInfoENTITY");
-					visitingDetailsEntity.setPersonalInfoEntity(personalInfoEntity);
-					
-					BeanUtils.copyProperties(registrationDto, visitingDetailsEntity);
+				logger.info("Mapping VisitingDetailsENTITY with PersonalInfoENTITY");
+				visitingDetailsEntity.setPersonalInfoEntity(personalInfoEntity);
 
-					logger.info("Saving visitingInfo Details " + visitingDetailsEntity);
-					registrationDao.saveVisitingDetailsDetails(visitingDetailsEntity);
-					return 1;
-				}else {
-					logger.info("Email id  is null");
-					return 0;
-				}
+				BeanUtils.copyProperties(registrationDto, visitingDetailsEntity);
+
+				logger.info("Saving visitingInfo Details " + visitingDetailsEntity);
+				registrationDao.saveVisitingDetailsDetails(visitingDetailsEntity);
+				return 1;
+			} else {
+				logger.info("Email id  is null");
+				return 0;
+			}
 		} catch (Exception e) {
 			logger.error("Exception in validateAndSaveDetails " + e.getMessage());
 			e.printStackTrace();

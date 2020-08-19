@@ -95,10 +95,10 @@ div {
 		
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">Temple Registration</a> 
-				<h4>Welcome, ${emailId}</h4>
+				<h2>Welcome, ${emailId}</h2>
 			</nav>
 			<br>
-			<h2>Visiting Details</h2>
+			<h2>Book Visiting Details</h2>
 			<br> <label>Enter Date of visiting: </label> <input type="date"
 				name="date" placeholder="Date of Visiting"><br> <br>
 
