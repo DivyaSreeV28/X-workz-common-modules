@@ -90,17 +90,17 @@ div {
 		Mail Success</h3>
  -->
 	<div>
-		<form action="booksearch.cm" method="post">
+		<form action="booking.cm">
 		
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">Temple Registration</a> 
-				<h4>Welcome, ${emailId}</h4> 
+				<h2>Welcome, ${emailId}</h2> 
 			</nav>
 			<br>
 			<h2>Welcome to Thirumala temple Registration</h2>
 			
 			<div>
-				<a href="BookVisit.jsp" value="Book">Book</a><hr>
+				<a href="booking.cm" value="Book">Book</a><hr>
 				<a href="Search.jsp" value="Search">Search</a>
 			</div>
 

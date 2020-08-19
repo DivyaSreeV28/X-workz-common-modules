@@ -6,7 +6,8 @@ version="2.5">
 
   <display-name>Spring-cm-TempleRegistrationLogin</display-name>
   <welcome-file-list>
-    <welcome-file>/landing.cm</welcome-file>
+  	<welcome-file>HomePage.jsp</welcome-file>
+   <!--  <welcome-file>/landing.cm</welcome-file> -->
   </welcome-file-list>
   
   <servlet>
